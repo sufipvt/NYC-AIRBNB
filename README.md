@@ -291,17 +291,7 @@ The main lesson was that **training a model is only one part of an ML project**.
 
 ---
 
-## 🔮 Future Improvements
 
-* Add automated API tests
-* Dockerize the application
-* Improve model monitoring
-* Experiment with additional classification models
-* Add model versioning
-* Improve the frontend experience
-* Set up automated deployment/CI
-
----
 
 ## 👨‍💻 Author
 
