@@ -1,22 +1,31 @@
 # 🏙️ NYC Airbnb Room Type Predictor
 
-A machine learning project that predicts the **room type of an Airbnb listing in New York City** using listing information such as location, price, reviews, minimum nights, and availability.
+A machine learning application that predicts the **room type of an Airbnb listing in New York City** based on features such as location, price, reviews, minimum nights, and availability.
 
-The project takes the model beyond a Jupyter Notebook by serving the trained model through a **FastAPI API** and connecting it to a simple web interface.
+The project covers the complete workflow from **data analysis and model training to API development, frontend integration, and deployment**.
+
+## 🌐 Live Demo
+
+**Frontend:**
+https://nyc-airbnb-1-9me0.onrender.com
+
+**Backend API:**
+https://nyc-airbnb-80qd.onrender.com
+
+**API Documentation:**
+https://nyc-airbnb-80qd.onrender.com/docs
 
 ---
 
-## 📌 Project Overview
+## 🎯 Project Goal
 
-The goal of this project is to build a multiclass classification model that predicts one of three Airbnb room types:
+The goal is to build a multiclass classification model that predicts one of three Airbnb room types:
 
 * **Entire home/apt**
 * **Private room**
 * **Shared room**
 
-The project covers the complete machine learning workflow:
-
-**Data → EDA → Preprocessing → Model Training → Evaluation → Saved Model → FastAPI → Web Interface**
+The application allows a user to enter listing information and receive a predicted room type along with the model's probability for each class.
 
 ---
 
@@ -26,14 +35,14 @@ The project uses the **New York City Airbnb Open Data** dataset.
 
 The dataset contains information about Airbnb listings, including:
 
-* Latitude & Longitude
+* Latitude and longitude
 * Neighbourhood
 * Neighbourhood group
 * Price
 * Minimum nights
 * Number of reviews
 * Reviews per month
-* Number of listings owned by the host
+* Host listing count
 * Availability
 * Room type
 
@@ -43,71 +52,68 @@ The dataset contains information about Airbnb listings, including:
 
 ## 🤖 Machine Learning
 
-I experimented with multiple classification algorithms and compared their performance before selecting the final model.
-
-The project includes:
+The project follows a complete supervised machine learning workflow:
 
 * Exploratory Data Analysis
+* Data cleaning
 * Missing-value handling
-* Numerical feature preprocessing
+* Feature preprocessing
+* Numerical feature scaling
 * Categorical feature encoding
 * Train/test split
 * Model comparison
 * Cross-validation
 * Hyperparameter tuning
+* Model evaluation
 * Feature importance analysis
 
-The final model is a **Random Forest Classifier** integrated into a preprocessing pipeline.
+The final model uses a **Random Forest Classifier** inside a Scikit-learn preprocessing pipeline.
 
-The complete pipeline is saved using **Joblib**, allowing the same preprocessing steps used during training to be applied when making predictions.
+The complete pipeline is saved using **Joblib** and reused by the backend for predictions.
 
 ---
 
-## ⚙️ How It Works
+## ⚙️ Project Workflow
 
 ```text
-                    Airbnb Listing Data
-                            │
-                            ▼
-                    Data Preprocessing
-                            │
-              ┌─────────────┴─────────────┐
-              ▼                           ▼
-       Numerical Features          Categorical Features
-              │                           │
-              └─────────────┬─────────────┘
-                            ▼
-                     ML Pipeline
-                            │
-                            ▼
-                  Random Forest Model
-                            │
-                            ▼
-                    Saved Model (.pkl)
-                            │
-                            ▼
-                       FastAPI
-                            │
-                            ▼
-                     Web Interface
-                            │
-                            ▼
-              Room Type + Probabilities
+Airbnb Dataset
+      ↓
+Data Cleaning & EDA
+      ↓
+Feature Preprocessing
+      ↓
+Model Training & Evaluation
+      ↓
+Random Forest Pipeline
+      ↓
+Saved Model
+      ↓
+FastAPI Backend
+      ↓
+Frontend
+      ↓
+Room Type Prediction
 ```
 
 ---
 
-## 🚀 FastAPI Backend
+## 🔌 FastAPI Backend
 
-The trained model is exposed through a FastAPI backend.
+The trained model is served through a **FastAPI** backend.
 
-### Endpoint
+### Main Endpoint
 
 ```text
 POST /predict
 ```
 
-The API receives listing information, validates the input using **Pydantic**, sends the data through the saved ML pipeline, and returns the predicted room type along with prediction probabilities.
+The API:
+
+1. Receives listing information
+2. Validates the input using **Pydantic**
+3. Passes the data through the saved ML pipeline
+4. Generates the prediction
+5. Returns the predicted room type and class probabilities
 
 Example response:
 
@@ -118,26 +124,36 @@ Example response:
 }
 ```
 
-The probability values represent the model's estimated probability for each class.
+The probability values represent the model's predicted probability for each room-type class.
+
+### Interactive API Documentation
+
+FastAPI automatically provides interactive API documentation:
+
+https://nyc-airbnb-80qd.onrender.com/docs
 
 ---
 
 ## 🖥️ Frontend
 
-A simple HTML, CSS, and JavaScript interface is included to interact with the API.
+The project includes a simple web interface built with:
 
-Users can enter listing information such as:
+* HTML
+* CSS
+* JavaScript
+
+Users can enter details such as:
 
 * Location
 * Neighbourhood
 * Price
 * Minimum nights
-* Reviews
+* Number of reviews
 * Reviews per month
 * Host listing count
 * Availability
 
-The frontend sends the data to the FastAPI backend and displays the prediction.
+The frontend sends the data to the deployed FastAPI backend and displays the prediction.
 
 ---
 
@@ -165,6 +181,10 @@ The frontend sends the data to the FastAPI backend and displays the prediction.
 * CSS
 * JavaScript
 
+### Deployment
+
+* Render
+
 ---
 
 ## 📁 Project Structure
@@ -188,19 +208,19 @@ NYC-AIRBNB/
 
 ### Key Files
 
-| File                                        | Purpose                                           |
-| ------------------------------------------- | ------------------------------------------------- |
-| `nyc_airbnb_room_type_classification.ipynb` | EDA, preprocessing, model training and evaluation |
-| `Model_Pipeline.pkl`                        | Saved preprocessing + trained model pipeline      |
-| `main.py`                                   | FastAPI backend and prediction endpoint           |
-| `index.html`                                | Frontend structure                                |
-| `style.css`                                 | Frontend styling                                  |
-| `script.js`                                 | Frontend/API interaction                          |
-| `requirements.txt`                          | Python dependencies                               |
+| File                                        | Description                                                 |
+| ------------------------------------------- | ----------------------------------------------------------- |
+| `nyc_airbnb_room_type_classification.ipynb` | Data analysis, preprocessing, model training and evaluation |
+| `Model_Pipeline.pkl`                        | Saved preprocessing and ML model pipeline                   |
+| `main.py`                                   | FastAPI backend and prediction endpoint                     |
+| `index.html`                                | Frontend structure                                          |
+| `style.css`                                 | Frontend styling                                            |
+| `script.js`                                 | Frontend and API interaction                                |
+| `requirements.txt`                          | Project dependencies                                        |
 
 ---
 
-## 💻 Run Locally
+## 🚀 Run Locally
 
 ### 1. Clone the repository
 
@@ -215,7 +235,7 @@ cd NYC-AIRBNB
 python -m venv venv
 ```
 
-Activate it on Windows:
+On Windows:
 
 ```bash
 venv\Scripts\activate
@@ -233,44 +253,64 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
-The API will run at:
+The backend will be available at:
 
 ```text
 http://127.0.0.1:8000
 ```
 
-FastAPI's interactive documentation is available at:
+API documentation:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
-### 5. Use the frontend
+### 5. Open the frontend
 
-Open `index.html` in your browser and enter the Airbnb listing details to generate a prediction.
+Open `index.html` in your browser and enter the Airbnb listing details.
 
 ---
 
 ## 📚 What I Learned
 
-This project helped me understand how an ML model can move beyond experimentation in a notebook and become an actual application.
+This project helped me understand how to take a machine learning model from experimentation to a usable application.
 
 Key takeaways:
 
 * Building a complete ML classification workflow
-* Working with numerical and categorical data
+* Working with numerical and categorical features
 * Creating reusable Scikit-learn pipelines
-* Model evaluation and tuning
+* Model comparison and hyperparameter tuning
 * Saving and loading trained models
-* Building prediction APIs with FastAPI
-* Validating API inputs with Pydantic
-* Connecting a frontend to an ML backend
+* Building APIs with FastAPI
+* Validating inputs with Pydantic
+* Connecting a frontend with an ML backend
+* Deploying an ML application using Render
 
-The main lesson was that **training the model is only one part of building an ML application**. The model also needs to be packaged, served, and connected to something that can actually use it.
+The main lesson was that **training a model is only one part of an ML project**. The model also needs to be packaged, served through an API, connected to an interface, and deployed so that it can actually be used.
 
+---
 
+## 🔮 Future Improvements
+
+* Add automated API tests
+* Dockerize the application
+* Improve model monitoring
+* Experiment with additional classification models
+* Add model versioning
+* Improve the frontend experience
+* Set up automated deployment/CI
+
+---
 
 ## 👨‍💻 Author
 
 **Sufiyan Rizvi**
 
+GitHub: https://github.com/sufipvt
+
+---
+
+## 📜 License
+
+This project is intended for educational and portfolio purposes.
